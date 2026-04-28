@@ -62,7 +62,10 @@ To simply run MATSim based on a config file, pass `run --config <path>`. To get 
 java -jar matsim-example-project-0.0.1-SNAPSHOT.jar <command>
 ```
 
-
+#### Run with Nix:
+```sh
+nix run . run -- --config=scenarios/equil/config-2026.xml
+```
 
 ### Licenses
 (The following paragraphs need to be adjusted according to the specifications of your project.)
