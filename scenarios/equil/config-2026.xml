@@ -16,8 +16,8 @@
 	</module>
 
 	<module name="controller">
-		<param name="outputDirectory" value="./output" />
-		<param name="lastIteration" value="10" />
+		<param name="outputDirectory" value="./output26" />
+		<param name="lastIteration" value="0" />
 	</module>
 
 	<module name="scoring">

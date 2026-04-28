@@ -21,6 +21,7 @@ package org.matsim.other;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
+import org.matsim.core.config.groups.ControllerConfigGroup;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
 import org.matsim.core.scenario.ScenarioUtils;
@@ -31,38 +32,40 @@ import org.matsim.core.scenario.ScenarioUtils;
  */
 public class RunMatsimWithoutApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Config config;
-		if ( args==null || args.length==0 || args[0]==null ){
-			config = ConfigUtils.loadConfig( "scenarios/equil/config-2026.xml" );
-		} else {
-			config = ConfigUtils.loadConfig( args );
-		}
+        Config config;
+        if (args == null || args.length == 0 || args[0] == null) {
+            config = ConfigUtils.loadConfig("scenarios/equil/config-2026.xml");
+        } else {
+            config = ConfigUtils.loadConfig(args);
+        }
 
-		config.controller().setOverwriteFileSetting( OverwriteFileSetting.deleteDirectoryIfExists );
+        config.controller().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
 
         // possibly modify config here
+        config.controller().setLastIteration(10);
+        //config.controller().setCompressionType(ControllerConfigGroup.CompressionType.gzip);
 
-		// ---
-		
-		Scenario scenario = ScenarioUtils.loadScenario(config) ;
+        // ---
 
-		// possibly modify scenario here
-		
-		// ---
-		
-		Controler controler = new Controler( scenario ) ;
-		
-		// possibly modify controler here
+        Scenario scenario = ScenarioUtils.loadScenario(config);
+
+        // possibly modify scenario here
+
+        // ---
+
+        Controler controler = new Controler(scenario);
+
+        // possibly modify controler here
 
 //		controler.addOverridingModule( new OTFVisLiveModule() ) ;
 
 //		controler.addOverridingModule( new SimWrapperModule() );
-		
-		// ---
-		
-		controler.run();
-	}
-	
+
+        // ---
+
+        controler.run();
+    }
+
 }

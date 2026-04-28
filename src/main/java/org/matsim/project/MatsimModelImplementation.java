@@ -29,47 +29,47 @@ import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
  * @author nagel
  *
  */
-@CommandLine.Command( header = ":: MyScenario ::", version = "1.0")
+@CommandLine.Command(header = ":: MyScenario ::", version = "1.0")
 public class MatsimModelImplementation extends MATSimApplication {
 
-	public MatsimModelImplementation() {
-		super();
-	}
+    public MatsimModelImplementation() {
+        super();
+    }
 
 	public static void main(String[] args) {
 		MATSimApplication.execute(MatsimModelImplementation.class, "--config", "scenarios/equil/config-2026.xml");
 	}
 
-	@Override
-	protected Config prepareConfig(Config config) {
+    @Override
+    protected Config prepareConfig(Config config) {
 
-		config.controller().setOverwriteFileSetting( OverwriteFileSetting.deleteDirectoryIfExists );
+        config.controller().setOverwriteFileSetting(OverwriteFileSetting.deleteDirectoryIfExists);
 
-		// possibly modify config here
+        // possibly modify config here
 
-		// ---
+        // ---
 
-		return config;
-	}
+        return config;
+    }
 
-	@Override
-	protected void prepareScenario(Scenario scenario) {
+    @Override
+    protected void prepareScenario(Scenario scenario) {
 
-		// possibly modify scenario here
+        // possibly modify scenario here
 
-		// ---
+        // ---
 
-	}
+    }
 
-	@Override
-	protected void prepareControler(Controler controler) {
+    @Override
+    protected void prepareControler(Controler controler) {
 
-		// possibly modify controler here
+        // possibly modify controler here
 
 //		controler.addOverridingModule( new OTFVisLiveModule() ) ;
 //		controler.addOverridingModule( new SimWrapperModule() ) ;
 
 
-		// ---
-	}
+        // ---
+    }
 }

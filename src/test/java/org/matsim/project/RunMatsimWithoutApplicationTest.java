@@ -44,52 +44,52 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class RunMatsimWithoutApplicationTest {
 
-	@RegisterExtension
-	public MatsimTestUtils utils = new MatsimTestUtils() ;
+    @RegisterExtension
+    public MatsimTestUtils utils = new MatsimTestUtils();
 
-	@Test
-	// @Ignore("OTFVis does not work on build server") PLEASE DO NOT DO THIS.  Rather comment out OTFVis line in RunMatsim#main.  kai, oct'22
-	public final void test() {
+    @Test
+    // @Ignore("OTFVis does not work on build server") PLEASE DO NOT DO THIS.  Rather comment out OTFVis line in RunMatsim#main.  kai, oct'22
+    public final void test() {
 
-		try {
-			final URL baseUrl = ExamplesUtils.getTestScenarioURL( "equil" );
-			final String fullUrl = IOUtils.extendUrl( baseUrl, "config.xml" ).toString();
-			String [] args = {fullUrl,
-				  "--config:controller.outputDirectory", utils.getOutputDirectory(),
-				  "--config:controller.lastIteration", "1"
-			} ;
-			RunMatsimWithoutApplication.main( args ) ;
-			{
-				Population expected = PopulationUtils.createPopulation( ConfigUtils.createConfig() ) ;
-				PopulationUtils.readPopulation( expected, utils.getInputDirectory() + "/output_plans.xml.zst" );
+        try {
+            final URL baseUrl = ExamplesUtils.getTestScenarioURL("equil");
+            final String fullUrl = IOUtils.extendUrl(baseUrl, "config.xml").toString();
+            String[] args = {fullUrl,
+                    "--config:controller.outputDirectory", utils.getOutputDirectory(),
+                    "--config:controller.lastIteration", "1"
+            };
+            RunMatsimWithoutApplication.main(args);
+            {
+                Population expected = PopulationUtils.createPopulation(ConfigUtils.createConfig());
+                PopulationUtils.readPopulation(expected, utils.getInputDirectory() + "/output_plans.xml.zst");
 
-				Population actual = PopulationUtils.createPopulation( ConfigUtils.createConfig() ) ;
-				PopulationUtils.readPopulation( actual, utils.getOutputDirectory() + "/output_plans.xml.zst" );
+                Population actual = PopulationUtils.createPopulation(ConfigUtils.createConfig());
+                PopulationUtils.readPopulation(actual, utils.getOutputDirectory() + "/output_plans.xml.zst");
 
-				for ( Id<Person> personId : expected.getPersons().keySet()) {
-					double scoreReference = expected.getPersons().get(personId).getSelectedPlan().getScore();
-					double scoreCurrent = actual.getPersons().get(personId).getSelectedPlan().getScore();
-					assertEquals(scoreReference, scoreCurrent, 0.001, "Scores of person=" + personId + " are different");
-				}
+                for (Id<Person> personId : expected.getPersons().keySet()) {
+                    double scoreReference = expected.getPersons().get(personId).getSelectedPlan().getScore();
+                    double scoreCurrent = actual.getPersons().get(personId).getSelectedPlan().getScore();
+                    assertEquals(scoreReference, scoreCurrent, 0.001, "Scores of person=" + personId + " are different");
+                }
 
 
 //				boolean result = PopulationUtils.comparePopulations( expected, actual );
 //				Assert.assertTrue( result );
-				// (There are small differences in the score.  Seems that there were some floating point changes in Java 17, and the
-				// differ by JDK (e.g. oracle vs. ...).   So not testing this any more for the time being.  kai, jul'23
-			}
-			{
-				String expected = utils.getInputDirectory() + "/output_events.xml.zst" ;
-				String actual = utils.getOutputDirectory() + "/output_events.xml.zst" ;
-				ComparisonResult result = EventsUtils.compareEventsFiles( expected, actual );
-				assertEquals( ComparisonResult.FILES_ARE_EQUAL, result );
-			}
+                // (There are small differences in the score.  Seems that there were some floating point changes in Java 17, and the
+                // differ by JDK (e.g. oracle vs. ...).   So not testing this any more for the time being.  kai, jul'23
+            }
+            {
+                String expected = utils.getInputDirectory() + "/output_events.xml.zst";
+                String actual = utils.getOutputDirectory() + "/output_events.xml.zst";
+                ComparisonResult result = EventsUtils.compareEventsFiles(expected, actual);
+                assertEquals(ComparisonResult.FILES_ARE_EQUAL, result);
+            }
 
-		} catch ( Exception ee ) {
-			LogManager.getLogger(this.getClass() ).fatal("there was an exception: \n" + ee ) ;
+        } catch (Exception ee) {
+            LogManager.getLogger(this.getClass()).fatal("there was an exception: \n" + ee);
 
-			// if one catches an exception, then one needs to explicitly fail the test:
-			fail();
-		}
-	}
+            // if one catches an exception, then one needs to explicitly fail the test:
+            fail();
+        }
+    }
 }
